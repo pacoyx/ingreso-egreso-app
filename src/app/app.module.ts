@@ -3,8 +3,10 @@ import { NgModule } from '@angular/core';
 
 import { environment } from '../environments/environment';
 
-//ngrx
-import { StoreModule } from "@ngrx/store";
+import { ChartsModule } from 'ng2-charts';
+
+// ngrx
+import { StoreModule } from '@ngrx/store';
 import { appReducers } from './app.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
@@ -26,6 +28,7 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { AppRoutingModule } from './app.routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { OrdenIngresoPipe } from './pipes/orden-ingreso.pipe';
 
 
 @NgModule({
@@ -39,7 +42,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     DetalleComponent,
     FooterComponent,
     NavbarComponent,
-    SidebarComponent
+    SidebarComponent,
+    OrdenIngresoPipe
   ],
   imports: [
     BrowserModule,
@@ -53,6 +57,7 @@ import { ReactiveFormsModule } from '@angular/forms';
       maxAge: 25, // Retains last 25 states
       logOnly: environment.production, // Restrict extension to log-only mode
     }),
+    ChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

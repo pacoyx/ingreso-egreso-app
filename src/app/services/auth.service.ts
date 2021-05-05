@@ -1,17 +1,20 @@
 import { Injectable } from '@angular/core';
 
-//firebase
+// firebase
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 
-//Ngrx
+// Ngrx
 import { Store } from '@ngrx/store';
 import { AppState } from '../app.reducer';
 import { Usuario } from '../models/usuario.model';
-
-
-import { map } from "rxjs/operators";
 import * as authActions from '../auth/auth.actions';
+import * as ingresoEgresoActions from '../ingreso-egreso/ingreso-egreso.actions';
+
+
+import { map } from 'rxjs/operators';
+
+
 import { Subscription } from 'rxjs';
 
 @Injectable({
@@ -20,6 +23,11 @@ import { Subscription } from 'rxjs';
 export class AuthService {
 
   userSubScription: Subscription;
+  private _user: Usuario;
+
+  get user() {
+    return { ...this._user };
+  }
 
   constructor(
     public auth: AngularFireAuth,
@@ -31,18 +39,20 @@ export class AuthService {
 
       if (fuser) {
         console.log('en la fuser');
-        
+
         this.userSubScription = this.firestore.doc(`${fuser.uid}/usuario`).valueChanges()
           .subscribe((firestoreUser: any) => {
             const user = Usuario.fromFirebase(firestoreUser);
+            this._user = user;
             this.store.dispatch(authActions.setUser({ user }));
           });
 
       } else {
         console.log('saliendo del fuser');
-        
+        this._user = null;
         this.userSubScription.unsubscribe();
         this.store.dispatch(authActions.unSetUser());
+        this.store.dispatch(ingresoEgresoActions.unSetItems());
       }
 
     });
