@@ -50,7 +50,7 @@ export class AuthService {
       } else {
         console.log('saliendo del fuser');
         this._user = null;
-        this.userSubScription.unsubscribe();
+        this.userSubScription?.unsubscribe();
         this.store.dispatch(authActions.unSetUser());
         this.store.dispatch(ingresoEgresoActions.unSetItems());
       }
@@ -59,7 +59,7 @@ export class AuthService {
   }
 
   crearUsuario(nombre: string, email: string, password: string) {
-    // console.log(nombre,email, password);
+
     return this.auth.createUserWithEmailAndPassword(email, password)
       .then(({ user }) => {
         const newUser = new Usuario(user.uid, nombre, user.email)
@@ -69,9 +69,7 @@ export class AuthService {
   }
 
   loginUsuario(email: string, password: string) {
-
     return this.auth.signInWithEmailAndPassword(email, password);
-
   }
 
   logout() {

@@ -19,7 +19,7 @@ import { Subscription } from 'rxjs';
 
 export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
-  cargando: boolean = false;
+  cargando = false;
   uiSubscription: Subscription;
 
   constructor(private fb: FormBuilder,
@@ -36,13 +36,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.uiSubscription = this.store.select('ui').subscribe(ui => {
       console.log('cargando susb');
-      this.cargando = ui.isLoading
+      this.cargando = ui.isLoading;
     });
 
   }
 
-  ngOnDestroy() {
-    this.uiSubscription.unsubscribe(); 
+  ngOnDestroy(): void {
+    this.uiSubscription.unsubscribe();
   }
 
   login() {
